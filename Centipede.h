@@ -25,6 +25,7 @@ class Centipede
     void portWrite(int port, int value);
     int portRead(int port);
     void portInterrupts(int port, int gpintval, int defval, int intconval);
+    uint16_t getIntF(int port);
     int portCaptureRead(int port);
     void portIntPinConfig(int port, int drain, int polarity);
     void initialize();

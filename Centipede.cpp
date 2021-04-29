@@ -197,10 +197,10 @@ int Centipede::portCaptureRead(int port) {
 
 void Centipede::portIntPinConfig(int port, int drain, int polarity) {
 
-  WriteRegisterPin(port, 1, 0x0A, drain);
-  WriteRegisterPin(port, 1, 0x0B, drain);
-  WriteRegisterPin(port, 0, 0x0A, polarity);
-  WriteRegisterPin(port, 0, 0x0B, polarity);
+  WriteRegisterPin(port, 2, 0x0A, drain);
+  WriteRegisterPin(port, 2, 0x0B, drain);
+  WriteRegisterPin(port, 1, 0x0A, polarity);
+  WriteRegisterPin(port, 1, 0x0B, polarity);
 
 }
 
@@ -224,6 +224,15 @@ int Centipede::portRead(int port) {
 
 }
 
+// JFM: Return port interrupt flags (1=pin interrupted)
+uint16_t Centipede::getIntF(int port) {
 
+  ReadRegisters(port, 0x0e, 2);
+
+  int receivedval = CSDataArray[0];
+  receivedval |= CSDataArray[1] << 8;
+
+  return receivedval;
+}
 
 
