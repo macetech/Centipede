@@ -47,12 +47,12 @@ void Centipede::WriteRegisters(int port, int startregister, int quantity) {
 #if defined(ARDUINO) && ARDUINO >= 100
     Wire.write((byte)startregister);
     for (int i = 0; i < quantity; i++) {
-        Wire.write((byte)CSDataArray[i]);
+      Wire.write((byte)CSDataArray[i]);
     }
 #else
     Wire.send((byte)startregister);
     for (int i = 0; i < quantity; i++) {
-        Wire.send((byte)CSDataArray[i]);
+      Wire.send((byte)CSDataArray[i]);
     }
 #endif
 
@@ -68,14 +68,14 @@ void Centipede::ReadRegisters(int port, int startregister, int quantity) {
     Wire.endTransmission();
     Wire.requestFrom(CSAddress + port, quantity);
     for (int i = 0; i < quantity; i++) {
-        CSDataArray[i] = Wire.read();
+      CSDataArray[i] = Wire.read();
     }
 #else
     Wire.send((byte)startregister);
     Wire.endTransmission();
     Wire.requestFrom(CSAddress + port, quantity);
     for (int i = 0; i < quantity; i++) {
-        CSDataArray[i] = Wire.receive();
+      CSDataArray[i] = Wire.receive();
     }
 #endif
 
