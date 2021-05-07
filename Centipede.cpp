@@ -10,6 +10,9 @@
 #include <Wire.h>
 
 uint8_t CSDataArray[2] = {0};
+#ifdef CACHE
+uint8_t CSDataCacheArray[16] = {0};
+#endif
 
 #define CSAddress 0b0100000
 
@@ -40,6 +43,13 @@ void Centipede::initialize()
 
 }
 
+
+#ifdef CACHE
+void Centipede::StoreCache(int port) {
+    CSDataCacheArray[port] = CSDataArray[0];
+    CSDataCacheArray[port+1] = CSDataArray[1];
+}
+#endif
 
 void Centipede::WriteRegisters(int port, int startregister, int quantity) {
 
@@ -131,16 +141,24 @@ void Centipede::digitalWrite(int pin, int level) {
 
 }
 
+// While the cache parameter is always taken in input, it will be effective only once CACHE is defined in Centipede.h file
 int Centipede::digitalRead(int pin, int cache) {
 
   int port = pin >> 4;
   int subregister = (pin & 8) >> 3;
 
+#ifdef CACHE
   if ( !cache ) {
     ReadRegisters(port, 0x12 + subregister, 1);
+    StoreCache(port);
   }
 
+  int returnval = (CSDataCacheArray[port] >> (pin - ((port << 1) + subregister)*8)) & 1;
+#else
+  ReadRegisters(port, 0x12 + subregister, 1);
+
   int returnval = (CSDataArray[0] >> (pin - ((port << 1) + subregister)*8)) & 1;
+#endif
 
   return returnval;
 
