@@ -131,12 +131,14 @@ void Centipede::digitalWrite(int pin, int level) {
 
 }
 
-int Centipede::digitalRead(int pin) {
+int Centipede::digitalRead(int pin, int cache) {
 
   int port = pin >> 4;
   int subregister = (pin & 8) >> 3;
 
-  ReadRegisters(port, 0x12 + subregister, 1);
+  if ( !cache ) {
+    ReadRegisters(port, 0x12 + subregister, 1);
+  }
 
   int returnval = (CSDataArray[0] >> (pin - ((port << 1) + subregister)*8)) & 1;
 

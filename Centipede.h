@@ -19,7 +19,7 @@ class Centipede
     void pinMode(int pin, int mode);
     void pinPullup(int pin, int mode);
     void digitalWrite(int pin, int level);
-    int digitalRead(int pin);
+    int digitalRead(int pin, int cache = false);
     void portMode(int port, int value);
     void portPullup(int port, int value);
     void portWrite(int port, int value);
