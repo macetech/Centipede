@@ -22,3 +22,7 @@ Nevertheless this could be outdated (eg .getIntF is missing in the wiki currentl
 * .getIntF(0..7) - These return an interrupt flag state that allows you to determine which port (device) produced an interrupt (and it could be more than one device).
 * .init() - Sets all registers to initial values
 
+## Compile Options
+
+if `CS_CACHE` is defined, the library will use sightly more memory, but will allow `.digitalRead([0-127, [TRUE|FALSE])` where the latter parametet will define if to return the value cached or if has to be taken fresh from the port.
+If you read all the 127 input from i2c, this should br faster, at the price of 512 byte of memory.
