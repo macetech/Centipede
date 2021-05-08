@@ -237,6 +237,10 @@ int Centipede::portRead(int port) {
 
   ReadRegisters(port, 0x12, 2);
 
+#ifdef CS_CACHE
+  StoreCache(port);
+#endif
+
   int receivedval = CSDataArray[0];
   receivedval |= CSDataArray[1] << 8;
 
